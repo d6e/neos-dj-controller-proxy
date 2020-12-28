@@ -1,12 +1,20 @@
+mod midi;
 
+use std::net::SocketAddr;
 use std::thread;
 use websocket::sync::Server;
 use websocket::OwnedMessage;
-use std::net::SocketAddr;
 
 fn main() {
-    let addr1 = SocketAddr::from(([0, 0, 0, 0], 8888));
-    let server = Server::bind(addr1).unwrap();
+    match midi::run() {
+        Ok(_) => ws_server(),
+        Err(err) => println!("Error: {}", err),
+    }
+}
+
+fn ws_server() {
+    let addr0 = SocketAddr::from(([0, 0, 0, 0], 8888));
+    let server = Server::bind(addr0).unwrap();
     for request in server.filter_map(Result::ok) {
         // Spawn a new thread for each connection.
         thread::spawn(|| {
@@ -28,7 +36,7 @@ fn main() {
                         return;
                     }
                     OwnedMessage::Ping(ping) => {
-                        println!("Ping: {:?}", ping );
+                        println!("Ping: {:?}", ping);
                     }
                     OwnedMessage::Text(msg) => {
                         println!("Message: {}", msg);
@@ -38,8 +46,7 @@ fn main() {
                     }
                     OwnedMessage::Pong(data) => {
                         println!("Pong: {:?}", data);
-                    }
-                    // _ => sender.send_message(&message).unwrap(),
+                    } // _ => sender.send_message(&message).unwrap(),
                 }
             }
         });
