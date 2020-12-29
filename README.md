@@ -1,0 +1,1 @@
+This program forwards midi data from a websocket represented as strings like "[127,42,123]" to a MIDI loopback virtual port. For Windows, you can get a freeware loopback virtual MIDI port here: https://www.nerds.de/en/download.html. Then run this program and select the midi LoopBe1 port as the output.
