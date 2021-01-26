@@ -20,7 +20,9 @@ lazy_static! {
 }
 
 fn ws_server() {
-    let addr0 = SocketAddr::from(([0, 0, 0, 0], 8888));
+    let port = 8888;
+    let addr0 = SocketAddr::from(([0, 0, 0, 0], port));
+    println!("Listening on {}\n Connect to 127.0.0.1:{}", addr0, port);
     let server = Server::bind(addr0).unwrap();
     for request in server.filter_map(Result::ok) {
         // Spawn a new thread for each connection.
