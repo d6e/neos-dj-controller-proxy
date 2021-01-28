@@ -10,7 +10,11 @@ use std::thread;
 use websocket::sync::Server;
 use websocket::OwnedMessage;
 
+const NAME: &'static str = env!("CARGO_PKG_NAME");
+const VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
 fn main() {
+    println!("{}  version={}", NAME, VERSION);
     ws_server()
 }
 
